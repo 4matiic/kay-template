@@ -1,0 +1,18 @@
+{
+  "greenScreenPosition": {
+    "x": -1289.02,
+    "y": -3409.83,
+    "z": 13.94
+  },
+  "greenScreenRotation": {
+    "x": 0,
+    "y": 0,
+    "z": 330
+  },
+  "cameraSettings": {
+    "fov": 50,
+    "zPos": 0.2,
+    "distance": 2.0
+  },
+  "debug": false
+}

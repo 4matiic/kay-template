@@ -1,0 +1,1 @@
+lib.versionCheck('ZappyFP/CoreContextMenu')

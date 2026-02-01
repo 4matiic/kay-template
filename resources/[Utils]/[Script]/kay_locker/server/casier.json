@@ -1,0 +1,326 @@
+[
+    {
+        "casierData": [
+            {
+                "pin": 2211,
+                "name": "Angel",
+                "status": "unlocked",
+                "id": 1
+            },
+            {
+                "pin": 0,
+                "name": "Casier 2",
+                "status": "free",
+                "id": 2
+            },
+            {
+                "pin": 0,
+                "name": "Casier 3",
+                "status": "free",
+                "id": 3
+            },
+            {
+                "pin": 0,
+                "name": "Casier 4",
+                "status": "free",
+                "id": 4
+            },
+            {
+                "pin": 0,
+                "name": "Casier 5",
+                "status": "free",
+                "id": 5
+            },
+            {
+                "pin": 0,
+                "name": "Casier 6",
+                "status": "free",
+                "id": 6
+            },
+            {
+                "pin": 0,
+                "name": "Casier 7",
+                "status": "free",
+                "id": 7
+            },
+            {
+                "pin": 0,
+                "name": "Casier 8",
+                "status": "free",
+                "id": 8
+            },
+            {
+                "pin": 0,
+                "name": "Casier 9",
+                "status": "free",
+                "id": 9
+            },
+            {
+                "pin": 0,
+                "name": "Casier 10",
+                "status": "free",
+                "id": 10
+            },
+            {
+                "pin": 0,
+                "name": "Casier 11",
+                "status": "free",
+                "id": 11
+            },
+            {
+                "pin": 0,
+                "name": "Casier 12",
+                "status": "free",
+                "id": 12
+            },
+            {
+                "pin": 0,
+                "name": "Casier 13",
+                "status": "free",
+                "id": 13
+            },
+            {
+                "pin": 0,
+                "name": "Casier 14",
+                "status": "free",
+                "id": 14
+            },
+            {
+                "pin": 0,
+                "name": "Casier 15",
+                "status": "free",
+                "id": 15
+            }
+        ],
+        "position": {
+            "y": -817.8142700195313,
+            "z": 10.9515905380249,
+            "x": -1054.88232421875
+        },
+        "id_u": -1455149330,
+        "everyOneCanCreate": false,
+        "job": "police"
+    },
+    {
+        "casierData": [
+            {
+                "pin": 0,
+                "name": "Casier 1",
+                "status": "free",
+                "id": 1
+            },
+            {
+                "pin": 0,
+                "name": "Casier 2",
+                "status": "free",
+                "id": 2
+            },
+            {
+                "pin": 0,
+                "name": "Casier 3",
+                "status": "free",
+                "id": 3
+            },
+            {
+                "pin": 0,
+                "name": "Casier 4",
+                "status": "free",
+                "id": 4
+            },
+            {
+                "pin": 0,
+                "name": "Casier 5",
+                "status": "free",
+                "id": 5
+            },
+            {
+                "pin": 0,
+                "name": "Casier 6",
+                "status": "free",
+                "id": 6
+            },
+            {
+                "pin": 0,
+                "name": "Casier 7",
+                "status": "free",
+                "id": 7
+            },
+            {
+                "pin": 0,
+                "name": "Casier 8",
+                "status": "free",
+                "id": 8
+            },
+            {
+                "pin": 0,
+                "name": "Casier 9",
+                "status": "free",
+                "id": 9
+            },
+            {
+                "pin": 0,
+                "name": "Casier 10",
+                "status": "free",
+                "id": 10
+            },
+            {
+                "pin": 0,
+                "name": "Casier 11",
+                "status": "free",
+                "id": 11
+            },
+            {
+                "pin": 0,
+                "name": "Casier 12",
+                "status": "free",
+                "id": 12
+            },
+            {
+                "pin": 0,
+                "name": "Casier 13",
+                "status": "free",
+                "id": 13
+            },
+            {
+                "pin": 0,
+                "name": "Casier 14",
+                "status": "free",
+                "id": 14
+            },
+            {
+                "pin": 0,
+                "name": "Casier 15",
+                "status": "free",
+                "id": 15
+            }
+        ],
+        "position": {
+            "y": -1328.664306640625,
+            "z": 122.4097900390625,
+            "x": -291.1040649414063
+        },
+        "id_u": 184298061,
+        "everyOneCanCreate": false,
+        "job": "police"
+    },
+    {
+        "casierData": [
+            {
+                "pin": 2211,
+                "name": "Angel",
+                "status": "unlocked",
+                "id": 1
+            },
+            {
+                "pin": 2211,
+                "name": "Nom du casier",
+                "status": "locked",
+                "id": 2
+            },
+            {
+                "pin": 0,
+                "name": "Casier 3",
+                "status": "free",
+                "id": 3
+            },
+            {
+                "pin": 0,
+                "name": "Casier 4",
+                "status": "free",
+                "id": 4
+            },
+            {
+                "pin": 0,
+                "name": "Casier 5",
+                "status": "free",
+                "id": 5
+            },
+            {
+                "pin": 0,
+                "name": "Casier 6",
+                "status": "free",
+                "id": 6
+            },
+            {
+                "pin": 0,
+                "name": "Casier 7",
+                "status": "free",
+                "id": 7
+            },
+            {
+                "pin": 0,
+                "name": "Casier 8",
+                "status": "free",
+                "id": 8
+            },
+            {
+                "pin": 0,
+                "name": "Casier 9",
+                "status": "free",
+                "id": 9
+            },
+            {
+                "pin": 0,
+                "name": "Casier 10",
+                "status": "free",
+                "id": 10
+            },
+            {
+                "pin": 0,
+                "name": "Casier 11",
+                "status": "free",
+                "id": 11
+            },
+            {
+                "pin": 0,
+                "name": "Casier 12",
+                "status": "free",
+                "id": 12
+            },
+            {
+                "pin": 0,
+                "name": "Casier 13",
+                "status": "free",
+                "id": 13
+            },
+            {
+                "pin": 0,
+                "name": "Casier 14",
+                "status": "free",
+                "id": 14
+            },
+            {
+                "pin": 0,
+                "name": "Casier 15",
+                "status": "free",
+                "id": 15
+            },
+            {
+                "pin": "0000",
+                "name": "New Casier",
+                "status": "free",
+                "id": 16
+            },
+            {
+                "pin": "0000",
+                "name": "New Casier",
+                "status": "free",
+                "id": 17
+            },
+            {
+                "pin": "0000",
+                "name": "New Casier",
+                "status": "free",
+                "id": 18
+            }
+        ],
+        "position": {
+            "y": -1008.7738647460938,
+            "z": 90.04029846191406,
+            "x": 287.4624328613281
+        },
+        "id_u": 694808010,
+        "everyOneCanCreate": true,
+        "job": "bennys"
+    }
+]

@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NUI Rent — Amber Panel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ========= Thème (tokens identiques à ta DA) ========= */
+    :root{
+      --bg:#10100b;         --panel:#1a1912;       --panel-2:#252417;
+      --text:#e7e7f0;       --muted:#9aa0b3;
+      --accent:#63000d;     --accent-2:#00379c;    --accent-3:#022c7a;
+      --success:#2ed47a;    --danger:#ff5c7a;
+      --shadow: 0 10px 30px rgba(0,89,255.15);
+      --radius: 16px;       --font-sans: "Montserrat", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    *{ box-sizing: border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0; background:transparent; color:var(--text);
+      font: 500 15px/1.5 var(--font-sans);
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+      display:grid; place-items:center;
+    }
+
+    /* ==== Overlay + Panel (fenêtre flottante) ==== */
+    .overlay{ position:fixed; inset:0; background:rgba(0,0,0,.35); opacity:0; pointer-events:none; transition:.2s ease; }
+    .overlay.show{ opacity:1; pointer-events:auto; }
+
+    .panel{
+      position:fixed; left:50%; top:50%; transform:translate(-50%,-46%) scale(.98);
+      width:min(980px, 90vw); height:min(82vh, 820px);
+      display:flex; flex-direction:column; overflow:hidden;
+      background: #0000009c;
+      border-radius:10px; 
+      box-shadow:0 26px 80px rgba(0, 0, 0, 0.205);
+      opacity:0; pointer-events:none; transition: opacity .22s ease, transform .22s ease;
+    }
+    .panel.show{ opacity:1; pointer-events:auto; transform:translate(-50%,-50%) scale(1); }
+
+    .top{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:14px 16px; border-bottom:1px solid rgba(255,255,255,.08); background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0)); }
+    .title{ display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.3px; }
+
+    .head-left{ display:flex; align-items:center; gap:12px; }
+
+    .close{ display:grid; place-items:center; width:36px; height:36px; border-radius:10px; cursor:pointer; border:1px solid rgba(255,92,122,.55); background:rgba(255,92,122,.15); color:#fff; transition:.18s; }
+    .close:hover{ transform:translateY(-1px); background:rgba(255,92,122,.26); box-shadow:0 8px 22px rgba(255,92,122,.28); }
+
+    .body{ flex:1 1 auto; min-height:0; padding:16px; overflow:auto; }
+
+    /* (Les styles .filters/.tabs existent mais ne sont plus utilisés) */
+    .filters{ display:none; }
+
+    .search{ margin-left:auto; position:relative; }
+    .search input{ width:260px; background:rgba(255,255,255,.06); color:#fff; border:1px solid rgba(255,255,255,.18); border-radius:999px; padding:10px 36px 10px 12px; outline:none; font-weight:600; }
+    .search .icon{ position:absolute; right:10px; top:50%; transform:translateY(-50%); opacity:.8; }
+
+    /* ==== Grille véhicules ==== */
+    .grid{ display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:14px; }
+    @media (max-width:860px){ .grid{ grid-template-columns: 1fr; } }
+
+.car {
+    position: relative;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 12px;
+    align-items: stretch;
+    border-radius: 7px;
+    overflow: hidden;
+    padding: 10px;
+    isolation: isolate;
+    height: 385px;
+    background: #0000006e;
+    border: 1.2px solid #ffffff30;
+}
+    .car:hover{ box-shadow:0 14px 44px #ffffff1c; transform: translateY(-2px); }
+    .car.selected{
+      box-shadow: 0 18px 60px #63000d27;
+      background: linear-gradient(#10100b, #10100b) padding-box,
+                  linear-gradient(135deg, #63000d, #63000d34 35%, #63000d63 70%, #FF980000) border-box;
+    }
+
+.thumb {
+    position: relative;
+    border-radius: 1px;
+    overflow: hidden;
+    background: #0f0f0f;
+    min-height: 140px;
+    height: 300px;
+    width: 400px;
+    left: 23px;
+}
+    .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transform: scale(1);
+    transition: transform .45s ease;
+}
+    .car:hover .thumb img{ transform: scale(1.04); }
+
+    .info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    left: 200px;
+}
+    .badge{ display:inline-flex; align-items:center; gap:6px; padding:4px 8px; border-radius:999px; font-size:12px; font-weight:700; background:linear-gradient(135deg, rgba(0,89,255.18), rgba(0,89,255.08)); border:1px solid rgba(0,89,255.28); color:#fff; }
+
+    .row{ margin-top:auto; display:flex; align-items:center; gap:10px; }
+    .choose { 
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 40px;
+    width: 235px;
+    padding: 9px 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 800;
+    border: #0ead3f42;
+    color: #fff;
+    background: #0ead3f42;
+    transition: .18s ease;
+  }
+  
+    .choose:hover{ 
+    transform: translateY(-2px);
+    border-color: #0ead3f8c;
+    background: rgba(46,212,122,.28);
+    }
+
+.price-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 5px;
+    color: #111;
+    background: rgb(0 137 255 / 46%);
+    border: 1px solid rgb(255 255 255 / 17%);
+    font: 900 12px/1 var(--font-sans);
+    z-index: 5;
+}
+
+    .price-badge .unit{ opacity:.8; font-weight:800; }
+
+    .class-chip{ position:absolute; left:8px; top:8px; display:inline-flex; gap:6px; align-items:center; padding:6px 10px; border-radius:999px; background:rgba(15,15,18,.65); border:1px solid rgba(255,255,255,.14); color:#fff; font:700 12px/1 var(--font-sans); box-shadow:0 6px 16px rgba(0,0,0,.25), 0 0 0 1px rgba(255,255,255,.06) inset; }
+
+    /* Footer */
+    .foot{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 16px; border-top:1px solid rgba(255,255,255,.08); }
+    .hint{ color:var(--muted); font-size:13px; }
+    .btn{ display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px; cursor:pointer; font-weight:700; color:#fff; transition:.15s ease; }
+    .btn.ghost{ background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.18); }
+    .btn.ghost:hover{ transform:translateY(-2px); filter:brightness(1.06); }
+    .btn.primary{ border:1px solid rgba(46,212,122,.6); background:linear-gradient(135deg, var(--success), #23b865); box-shadow:0 8px 24px rgba(46,212,122,.28); }
+    .btn.primary[disabled]{ opacity:.5; filter:grayscale(100%); cursor:not-allowed; box-shadow:none; }
+
+    /* Scrollbar */
+    .body{ scrollbar-width: thin; scrollbar-color: var(--accent-3) rgba(255,255,255,.06); }
+    .body::-webkit-scrollbar{ width:10px; height:10px; }
+    .body::-webkit-scrollbar-track{ background: rgba(255,255,255,.04); border-radius:10px; }
+    .body::-webkit-scrollbar-thumb{ background: linear-gradient(135deg, var(--accent-3), var(--accent-2)); border-radius:10px; border:2px solid rgba(26,26,18,.9); box-shadow: inset 0 0 0 1px rgba(255,255,255,.12); }
+
+    /* Apparition progressive */
+    .grid.stagger .car{ opacity: 0; transform: translateY(8px) scale(.98); filter: blur(1px); }
+    .grid.stagger .car.reveal{ opacity: 1; transform: none; filter: blur(0); }
+
+    @media (prefers-reduced-motion: reduce){
+      .panel, .car, .thumb img, .btn{ transition: none !important; }
+      .grid.stagger .car, .grid.stagger .car.reveal{ opacity: 1 !important; transform: none !important; filter: none !important; transition: none !important; }
+    }
+
+    /* --- Montserrat PARTOUT (même sur boutons/inputs) --- */
+    :where(html, body, button, input, select, textarea){
+      font-family: var(--font-sans) !important;
+    }
+
+    /* Les contrôles reprennent taille/poids/line-height du parent */
+    button, input, select, textarea{
+      font: inherit;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    /* Sécurité : force aussi sur tes boutons custom */
+    .choose, .btn{
+      font-family: var(--font-sans) !important;
+    }
+
+    /* L’input de recherche suit le parent (sinon WebKit garde son style) */
+    .search input{ font: inherit; }
+
+    /* La pastille prix utilisait 900 (non chargé) → passe à 800 que tu as chargé */
+    .price-badge{
+      font: 800 12px/1 var(--font-sans); /* avant: 900 */
+    }
+
+    /* On laisse les champs éditables sélectionner le texte */
+    :where(input, textarea, [contenteditable="true"]) {
+      user-select: text;
+      -webkit-user-select: text;
+    }
+
+    /* Bonus confort : pas de menu iOS au long-press ni halo tap */
+    :where(html, body, .panel){
+      -webkit-touch-callout: none;
+    }
+    :where(.panel, .panel *){ -webkit-tap-highlight-color: transparent; }
+
+    /* Empêche le drag d’images (petit plus UX) */
+    img{ -webkit-user-drag: none; user-drag: none; }
+
+    :root{
+      --bg:#0f0e0b;
+      --panel:#18140f;
+      --panel-2:#221b13;
+
+      --text:#f3efe8;
+      --muted:#a79786;
+
+      /* Palette ORANGE */
+      --accent:#ff8c1a;
+      --accent-2:#ffb56b;
+      --accent-3:#ff9a3d;
+
+      --success:#2ed47a;
+      --danger:#ff5c7a;
+
+      --shadow: 0 10px 30px rgba(255,140,26,.18);
+      --radius:16px;
+      --font-sans:"Montserrat",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div id="overlay" class="overlay" aria-hidden="true"></div>
+
+  <section id="rentPanel" class="panel" role="dialog" aria-modal="true" aria-labelledby="rentTitle">
+    <header class="top">
+      <div class="head-left">
+        <h2 class="title" id="rentTitle">
+          <span class="ico" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="8" rx="2" ry="2"/>
+              <path d="M7 11V7a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v4"/>
+              <circle cx="7.5" cy="19" r="1.5"/>
+              <circle cx="16.5" cy="19" r="1.5"/>
+            </svg>
+          </span>
+          Location de véhicules
+        </h2>
+      </div>
+
+      <div class="search" role="search">
+        <input id="searchInput" type="search" placeholder="Rechercher un modèle..." aria-label="Rechercher" />
+        <span class="icon" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        </span>
+      </div>
+
+      <button class="close" id="closeBtn" aria-label="Fermer">✕</button>
+    </header>
+
+    <div class="body">
+      <div id="carsGrid" class="grid" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <script>
+  (()=>{
+    const overlay   = document.getElementById('overlay');
+    const panel     = document.getElementById('rentPanel');
+    const grid      = document.getElementById('carsGrid');
+    const confirmBt = document.getElementById('confirmBtn');
+    const cancelBt  = document.getElementById('cancelBtn');
+    const closeBt   = document.getElementById('closeBtn');
+    const hintEl    = document.getElementById('hint');
+
+    const searchInp = document.getElementById('searchInput');
+
+    let resource    = 'rent'; // peut être remplacé par msg.resource
+    let allVehicles = [];
+    let filtered    = [];
+    let selectedIdx = -1; // index dans 'filtered'
+
+    function post(endpoint, payload={}){
+      try{
+        fetch(`https://${resource}/${endpoint}`,{ method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+      }catch(e){ /* silencieux hors NUI */ }
+    }
+
+    function formatMoney(v){
+      const n = Number(v||0);
+      return n.toLocaleString('fr-FR', { maximumFractionDigits: 0 });
+    }
+
+    function applyFilter(){
+      const q = (searchInp.value||'').trim().toLowerCase();
+      filtered = allVehicles.filter(v=>{
+        if(!q) return true;
+        const name = (v.displayName||v.name||'').toLowerCase();
+        const hash = (v.hash||'').toLowerCase();
+        const cls  = (v.class||'').toLowerCase();
+        return name.includes(q) || hash.includes(q) || cls.includes(q);
+      });
+      renderCars();
+    }
+
+    function pick(index){
+      selectedIdx = index;
+      [...grid.children].forEach((el,idx)=> el.classList.toggle('selected', idx===index));
+
+      if(index>=0){
+        const v = filtered[index];
+      }
+    }
+
+    function renderCars(){
+      grid.innerHTML = '';
+      if(!filtered.length){
+        grid.innerHTML = `<div style="grid-column:1/-1; opacity:.8; text-align:center; padding:24px; border:1px dashed rgba(255,255,255,.12); border-radius:12px;">Aucun véhicule trouvé.</div>`;
+        selectedIdx = -1; return;
+      }
+
+      grid.classList.add('stagger');
+      filtered.forEach((car,i)=>{
+        const card = document.createElement('article');
+        card.className = 'car'; card.tabIndex = 0; card.setAttribute('role','button'); card.setAttribute('aria-pressed', selectedIdx===i);
+        const cls  = (car.class||'autres');
+        const name = (car.displayName||car.name||car.hash||'Véhicule');
+        const img  = car.img ? `<img src="${car.img}" alt="${name}">` : '';
+        card.innerHTML = `
+          <div class="thumb">
+            <div class="price-badge" aria-label="Prix">
+              <span class="num">${formatMoney(car.price)}$</span>
+              <span class="unit">/ location</span>
+            </div>
+            ${img}
+          </div>
+          <div class="info">
+            <div class="name">${name}</div>
+            <div class="desc">
+              <span class="ico" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="9"/>
+                  <line x1="12" y1="8" x2="12.01" y2="8"/>
+                  <line x1="12" y1="12" x2="12" y2="16"/>
+                </svg>
+              </span>
+              <span class="txt">${car.desc || "n.a"}</b></span>
+            </div>
+            <div class="row">
+              <button class="choose" aria-label="Louer ${name}">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Louer
+              </button>
+            </div>
+          </div>`;
+
+        card.addEventListener('click', (e)=>{
+          if(e.target.closest('.choose')){ pick(i); confirm(); return; }
+          pick(i);
+        });
+        card.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); pick(i); }});
+        grid.appendChild(card);
+      });
+
+      const delay = 65;
+      const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      requestAnimationFrame(()=>{
+        [...grid.children].forEach((el, idx)=>{
+          el.classList.remove('reveal');
+          const d = reduceMotion ? 0 : idx * delay;
+          setTimeout(()=> el.classList.add('reveal'), d);
+        });
+        const total = (reduceMotion ? 0 : (grid.children.length - 1) * delay) + 350;
+        setTimeout(()=> grid.classList.remove('stagger'), total);
+      });
+    }
+
+    function openUI(vehicles){
+      allVehicles = Array.isArray(vehicles) ? vehicles.map(v=>({ ...v })) : [];
+      selectedIdx = -1; searchInp.value = '';
+      applyFilter();
+      overlay.classList.add('show');
+      panel.classList.add('show');
+    }
+
+    function closeUI(sendClose = true){
+      overlay.classList.remove('show');
+      panel.classList.remove('show');
+      post('close', { });
+      if (sendClose) post('close');
+    }
+
+    function confirm(){
+      if(selectedIdx<0) return;
+      const choice = filtered[selectedIdx];
+      post('rent', choice);
+      closeUI(false);
+    }
+
+    // listeners
+    closeBt.addEventListener('click',  ()=> closeUI(true));
+
+    searchInp.addEventListener('input', ()=>{ applyFilter(); pick(-1); });
+
+    // ESC / ENTER global
+    window.addEventListener('keydown', (e)=>{
+      if(!panel.classList.contains('show')) return;
+      if(e.key === 'Escape')  closeUI(true);
+      if(e.key === 'Enter')   confirm();
+    });
+
+    // Réception NUI
+    window.addEventListener('message', (ev)=>{
+      const msg = ev.data || {};
+      if(msg.action === 'openRent'){
+        resource = msg.resource || resource; // optionnel
+        openUI(msg.vehicles || []);
+      }
+      if(msg.action === 'closeRent' || msg.action === 'close') closeUI(false);
+    });
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "name": "kay_emote_gifmaker",
+  "version": "1.0.0",
+  "description": "Create GIFs from FB Emote animations",
+  "license": "MIT",
+  "dependencies": {
+    "gifencoder": "^2.0.1",
+    "png-js": "^1.0.0"
+  }
+}

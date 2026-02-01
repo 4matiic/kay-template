@@ -1,0 +1,87 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#000000"/><script defer="defer" src="static/js/main.js"></script><link href="main.css" rel="stylesheet"><script>(function(){try{window.__gender='male';window.__setGender=function(g){if(g!=='female')g='male';window.__gender=g;document.body&&document.body.classList&&(document.body.classList.remove('gender-male','gender-female'),document.body.classList.add('gender-'+g));}}catch(e){}})();</script>
+<script>
+(function(){
+  // Post to Lua
+  function postSelectGender(g){
+    try {
+      fetch('https://' + (typeof GetParentResourceName==='function'?GetParentResourceName():'ava') + '/selectGender', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ gender: g })
+      });
+    } catch(e) {}
+  }
+
+  // Try to infer gender from any element by walking up
+  function inferGenderFromElement(el){
+    for (var i=0; el && i<4; i++, el = el.parentElement){
+      var t = (el.textContent || '').toLowerCase();
+      if (t.indexOf('femme') !== -1 || t.indexOf('female') !== -1) return 'female';
+      if (t.indexOf('homme') !== -1 || t.indexOf('male') !== -1) return 'male';
+      if (el.dataset){
+        if (el.dataset.gender === 'female') return 'female';
+        if (el.dataset.gender === 'male') return 'male';
+      }
+      if (el.classList){
+        if (el.classList.contains('btn-female')) return 'female';
+        if (el.classList.contains('btn-male')) return 'male';
+      }
+    }
+    return null;
+  }
+
+  // Capture early to beat stopPropagation
+  function handler(ev){
+    var el = ev.target;
+    var g = inferGenderFromElement(el);
+    if (g === 'male' || g === 'female'){
+      postSelectGender(g);
+    }
+  }
+
+  // Bind on multiple phases & event types
+  ['pointerdown','mousedown','click'].forEach(function(evt){
+    document.addEventListener(evt, handler, true);  // capture phase
+  });
+
+  // Also observe DOM to tag obvious buttons
+  try {
+    var obs = new MutationObserver(function(){
+      var nodes = document.querySelectorAll('button, [role="button"], .btn, .button');
+      nodes.forEach(function(el){
+        var t = (el.textContent||'').toLowerCase();
+        if (t.indexOf('femme') !== -1 || el.classList.contains('btn-female')) el.dataset.gender = 'female';
+        if (t.indexOf('homme') !== -1 || el.classList.contains('btn-male')) el.dataset.gender = 'male';
+      });
+    });
+    obs.observe(document.documentElement, {childList:true, subtree:true});
+  } catch(e){}
+
+  // Listen for Lua -> UI setGender and rewrite images
+  window.addEventListener('message', function(ev){
+    var d = ev && ev.data || {};
+    if ((d.type||d.action) !== 'setGender') return;
+    var g = (d.gender === 'female') ? 'female' : 'male';
+
+    try {
+      document.body.classList.remove('gender-male','gender-female');
+      document.body.classList.add('gender-'+g);
+    } catch(e){}
+
+    try {
+      var imgs = document.querySelectorAll('img');
+      for (var i=0;i<imgs.length;i++){
+        var el = imgs[i], src = el.getAttribute('src')||'';
+        if (src.indexOf('assets/hair/') === -1) continue;
+        var ns;
+        if (src.indexOf('/hair/male/') !== -1) ns = src.replace('/hair/male/','/hair/'+g+'/');
+        else if (src.indexOf('/hair/female/') !== -1) ns = src.replace('/hair/female/','/hair/'+g+'/');
+        else ns = src.replace('/hair/','/hair/'+g+'/');
+        if (ns && ns !== src) el.setAttribute('src', ns);
+      }
+    } catch(e){}
+  });
+})();
+</script>
+
+</head><body><noscript>You need to enable JavaScript to run this app.</noscript><div id="root"></div></body></html>

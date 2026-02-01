@@ -1,0 +1,242 @@
+@import"https://fonts.googleapis.com/css?family=Poppins:200,400,500,600,700";
+@import"https://fonts.googleapis.com/css2?family=Open+Sans&display=swap";
+body{
+    overflow:hidden;
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale
+}
+code{
+    font-family:source-code-pro,Menlo,Monaco,Consolas,Courier New,monospace
+}
+
+body *,:after,:before{
+  font-family:var(--font-family),sans-serif;
+}
+
+:root{
+  --black: rgba(0, 0, 0, 1);
+  --black-40: rgba(0, 0, 0, .4);
+  --black-60: rgba(0, 0, 0, .6);
+  --black2-10: rgba(2, 2, 2, .1);
+  --black2-20: rgba(2, 2, 2, .2);
+  --black2-30: rgba(2, 2, 2, .3);
+  --black2-40: rgba(2, 2, 2, .4);
+  --black2-50: rgba(2, 2, 2, .5);
+  --black2-60: rgba(2, 2, 2, .6);
+  --black2-70: rgba(2, 2, 2, .7);
+  --black2-80: rgba(2, 2, 2, .8);
+  --black2-90: rgba(2, 2, 2, .9);
+  --black14-85: rgba(14, 14, 14, .85);
+  --noir-85: rgba(20, 20, 20, .851);
+  --grey: rgb(127, 127, 127);
+  --global-main-color-dark-50: rgba(99, 0, 13, .5);
+  --global-main-color: rgba(99, 0, 13, 1);
+  --global-main-color-10: rgba(99, 0, 13, .1);
+  --global-main-color-20: rgba(99, 0, 13, .2);
+  --global-main-color-30: rgba(99, 0, 13, .3);
+  --global-main-color-40: rgba(99, 0, 13, .4);
+  --global-main-color-50: rgba(99, 0, 13, .5);
+  --global-main-color-60: rgba(99, 0, 13, .6);
+  --global-main-color-70: rgba(99, 0, 13, .7);
+  --global-main-color-80: rgba(99, 0, 13, .8);
+  --global-main-color-90: rgba(99, 0, 13, .9);
+  --orange: #c96e06;
+  --light-orange: #b27935;
+  --green: #358e75;
+  --green2: #2bad6e;
+  --green-40: rgba(43, 173, 110, .4);
+  --red: #c33131;
+  --red-40: rgba(195, 49, 49, .4);
+  --blue: #3974c8;
+  --blue-40: #3975c83f;
+  --dark-blue: rgba(61, 112, 184, .6);
+  --dark-blue2: rgba(12, 56, 119, .6);
+  --white: rgba(255, 255, 255, 1);
+  --white-90: rgba(255, 255, 255, .9);
+  --white-80: rgba(255, 255, 255, .8);
+  --white-70: rgba(255, 255, 255, .7);
+  --white-50: rgba(255, 255, 255, .5);
+  --white-30: rgba(255, 255, 255, .3);
+  --degrade-violet: linear-gradient(360deg, rgba(99, 0, 13, .15) 0%, rgba(2, 2, 2, 0) 100%, rgba(2, 2, 2, 0) 100%);
+  --degrade-violet2: linear-gradient( 360deg, rgba(127, 18, 18, .15) 0%, rgba(2, 2, 2, 0) 100%, rgba(2, 2, 2, 0) 100% );
+  --degrade-violet-housebuilding: linear-gradient( 90deg, rgba(99, 0, 13, .36) 0%, rgba(2, 2, 2, .36) 0%, rgba(99, 0, 13, .31) 100% );
+  --degrade-rouge: linear-gradient(to right, rgba(2, 2, 2, .4), rgba(171, 27, 27, .31));
+  --degrade-bleu: linear-gradient(to right, rgba(2, 2, 2, .4) 0%, rgba(36, 48, 62, .31) 100%);
+  --degrade-orange: linear-gradient(to right, rgba(2, 2, 2, .36) 0%, rgba(171, 96, 27, .31) 100%);
+  --degrade-vert: linear-gradient(to right, rgba(2, 2, 2, .4) 0%, rgba(26, 102, 65, 031) 100%);
+  --degrade-brown: linear-gradient(to right, rgba(2, 2, 2, .4) 0%, rgba(80, 49, 21, .31) 100%);
+  --degrade-cyan: linear-gradient(to right, rgba(2, 2, 2, .4) 0%, rgba(0, 255, 255, .31) 100%);
+  --degrade-gray: linear-gradient(to right, rgba(2, 2, 2, .4) 0%, rgba(128, 128, 128, .31) 100%);
+  --degrade-pink: linear-gradient(to right, rgba(2, 2, 2, .4) 0%, rgba(255, 192, 203, .31) 100%);
+  --degrade-purple: linear-gradient(to right, rgba(2, 2, 2, .4) 0%, rgba(128, 0, 128, .31) 100%);
+  --degrade-violet: linear-gradient(to right, rgba(2, 2, 2, .4) 0%, rgba(238, 130, 238, .31) 100%);
+  --degrade-white: linear-gradient(to right, rgba(2, 2, 2, .4) 0%, rgba(255, 255, 255, .31) 100%);
+  --degrade-yellow: linear-gradient(to right, rgba(2, 2, 2, .4) 0%, rgba(255, 193, 7, .31) 100%);
+  --font-family: "Poppins";
+  --font-family-bold: "Poppins-Bold";
+  --font-family-medium: "Poppins-Medium";
+  --font-family-regular: "Poppins-Regular"
+}
+
+body {
+  display: none;
+  padding: 0;
+  background: transparent;
+  font-family: Arial, sans-serif;
+}
+
+.disable-select {
+  user-select: none;
+}
+
+#container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#card {
+  background: rgba(0, 0, 0, 0.5);
+  width: 800px;
+  height: 400px;
+  border: 0.1px solid rgba(218, 218, 218, 0.781);
+  border-radius: 10px;
+  display: flex;
+  overflow: hidden;
+}
+
+.left-section {
+  width: 150px;
+  height: 100%;
+  border-right: 0.1px solid rgba(218, 218, 218, 0.781);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+  background-image: url('../img/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.middle-section {
+  flex: 1;
+  text-align: center;
+  padding: 20px;
+  border-right: 0.1px solid rgba(218, 218, 218, 0.781);
+
+}
+
+h1 {
+  color: white;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.pattern-box {
+  width: 80%;
+  height: 70px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 0.1px solid rgba(218, 218, 218, 0.336);
+  border-radius: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 7vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 25px;
+  font-family: monospace;
+  font-size: 18px; 
+  font-weight: 600;
+  color: rgb(255, 255, 255);
+  line-height: 1.2; 
+  overflow: hidden;
+}
+
+.pattern-box::before {
+  content: "892f87b1-7cb6-4035-b6fc-d02506689c6a";
+  white-space: pre-wrap;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: calc(100% - 50px);
+  box-sizing: border-box;
+}
+
+.instruction {
+  color: white;
+  text-align: center;
+  margin-top: 11vh;
+  font-size: 18px;
+}
+
+.right-section {
+  width: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#game {
+  position: relative;
+  width: 140px; 
+  height: 130px; 
+  background: rgba(0, 0, 0, 0.6); 
+}
+
+.scratch-here {
+  position: absolute;
+  top: -70px;
+  width: 100%;
+  font-weight: 600;
+  text-align: center;
+  color: white;
+  font-size: 20px;
+  z-index: 3
+}
+
+#canvas {
+  width: 140px; 
+  height: 130px; 
+  background: rgba(128, 128, 128, 0);
+  border: 0.1px solid rgba(218, 218, 218, 0.781);
+  border-radius: 5px;
+  z-index: 2;
+  position: relative;
+}
+
+#price {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  z-index: 1;
+  width: calc(100% - 10px); 
+  word-wrap: break-word; 
+  overflow-wrap: break-word; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%; 
+}
+
+
+.hidden {
+  display: none;
+}
